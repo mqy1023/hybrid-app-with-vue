@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <root-path
+            name="root"
+            path="" />
+        <external-path
+            name="external-path"
+            path="camera_pick" />
+        <external-path
+            name="external-path"
+            path="avater_path" />
+        <!--其中myFile可以随意写，sharepic是根目录下的文件夹,也就是你放图片的主目录-->
+        <external-path
+            name="myFile"
+            path="sharepic" />
+    </paths>
+</resources>
+

@@ -1,0 +1,29 @@
+PODS:
+  - JCore (2.1.2)
+  - JPush (3.2.2):
+    - JCore (< 3.0.0, >= 2.0.0)
+  - UMCAnalytics (6.0.5):
+    - UMCCommon
+  - UMCCommon (2.1.1)
+
+DEPENDENCIES:
+  - JPush (= 3.2.2)
+  - UMCAnalytics
+  - UMCCommon
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - JCore
+    - JPush
+    - UMCAnalytics
+    - UMCCommon
+
+SPEC CHECKSUMS:
+  JCore: 1a426120b510cdebfd67b82bfb9483238ee09413
+  JPush: 0e9088c85c73275629facc311fe5992dfac36eeb
+  UMCAnalytics: 045be2cd1ec05aa95ad62405a850757f932e2d59
+  UMCCommon: 971f324a5a99c9d662ae040a815e7e3d7ef8b2a8
+
+PODFILE CHECKSUM: 28c830a15ca14e8b43424238ef7f65e024b1ad9c
+
+COCOAPODS: 1.6.1

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="38dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/wel_2" />
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="海量订单"
+        android:textColor="#4364FC"
+        android:textStyle="bold"
+        android:textSize="24sp" />
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="随时接单，随地接单"
+        android:textColor="#4364FC"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="6dp"
+            android:src="@drawable/wel_dot_nor"/>
+        <ImageView
+            android:layout_marginLeft="2dp"
+            android:layout_width="14dp"
+            android:layout_height="6dp"
+            android:src="@drawable/wel_dot_sel"/>
+        <ImageView
+            android:layout_marginLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wel_dot_nor"/>
+
+
+    </LinearLayout>
+</RelativeLayout>

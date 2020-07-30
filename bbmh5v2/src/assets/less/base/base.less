@@ -1,0 +1,222 @@
+body, html, #app {
+  line-height: 1;
+  font-weight: 200;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif;
+}
+
+.clearfix {
+  display: inline-block;
+  &:after {
+    display: block;
+    content: ".";
+    height: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5) {
+  .border-1px
+  &::after {
+    -webkit-transform: scaleY(0.7);
+    transform: scaleY(0.7);
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {
+  .border-1px
+  &::after {
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+}
+
+.padding-horizontal {
+  padding: 0 5vw;
+}
+
+
+.margin-horizontal {
+  margin: 0 5vw;
+}
+
+
+.float-r {
+  float: right
+}
+
+.float-l {
+  float: left
+}
+
+.clear-navbar-top {
+  padding-top: 46px
+}
+
+.icon-size-common {
+  width: 20px;
+  height: 22px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-horizontal-left {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+}
+.input-style-default {
+  padding: 10px;
+  border: 1px solid #DDDDDD;
+  background-color: #ffffff;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.over-text-show {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.btn-xbd-default {
+  margin-top: 12vw;
+  width: 92vw;
+  margin-left: 4vw;
+}
+
+.bank-infos-wrapper {
+  margin: 0 4vw;
+  width: 92vw;
+  background: linear-gradient(left, #5FA4FF, #4364FC);
+  border-radius: 12px;
+  padding: 8px 12px;
+  color: #ffffff;
+  line-height: 24px;
+  font-size: @font-size-md;
+  box-sizing: border-box;
+  * {
+    background: transparent;
+  }
+}
+
+// 银行卡信息等
+.infos-texts-wrapper {
+  width: 92vw;
+  margin: 3vw 4vw;
+  background: linear-gradient(left, #5FA4FF, #4364FC);
+  border-radius: 12px;
+  color: #fff;
+  input {
+    outline: none;
+    background-color: transparent;
+  }
+  .name-input {
+    max-width: 28vw;
+    width: auto;
+  }
+  .account-input {
+    max-width: 42vw;
+    width: auto;
+  }
+  .infos-text-top {
+    padding: 10px;
+    font-size: @font-size-lg;
+    .infos-texts-one {
+      height: 24px;
+      line-height: 24px;
+    }
+    button {
+      border: 1px solid #fff;
+      font-size: @font-size-sm;
+      background-color: transparent;
+      padding: 0 6px;
+      border-radius: 10px;
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+  .infos-text-bottom {
+    padding: 10px;
+    font-size: @font-size-md;
+    border-top: 1px solid #eee;
+    .infos-bottom-one {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      input {
+        text-align: right;
+      }
+    }
+  }
+}
+
+// 温馨提示
+.notice-texts-wrapper {
+  padding: 2vw 4vw;
+  font-size: @font-size-md;
+  color: @color666;
+  div {
+    margin-bottom: 1vw;
+    line-height: 17px;
+    color: @color999;
+    font-size: 13px;
+    span, .link-text {
+      color: @xbd-theme-color;
+    }
+    .span-red {
+      color: #E93F3F;
+    }
+  }
+  .one-line-text {
+    display: flex;
+    div {
+      display: block;
+    }
+  }
+  .notice-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2vw;
+  }
+}
+
+// 下面一左一右的两种按钮
+.two-btn-wrap {
+  width: 90vw;
+  margin: 8vw 5vw 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.two-btn-wrap /deep/ .button-xbd {
+  width: 42vw;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.two-btn-wrap /deep/ .btn-left .button-xbd {
+  background: #fff;
+  border: 1px solid #DDDDDD;
+  color: @color666
+}
+
+// 列表页空的情况
+.empty-show {
+  .bg-image('img-empty');
+  height: 68vh;
+  width: 60vw;
+  margin: 20vh 20vw 6vh;
+}

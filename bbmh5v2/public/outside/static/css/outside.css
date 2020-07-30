@@ -1,0 +1,235 @@
+.flex-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+input{
+    background:none;
+    outline:none;
+}
+input:focus{
+    border:none;
+}
+.outside-body {
+    font-size: 16px;
+}
+.outside-body::-webkit-scrollbar {
+    display: none;
+}
+.outside-nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    line-height: 48px;
+    background-color: #FFFFFF;
+}
+.outside-nav {
+    position: relative;
+    padding: 0 20px;
+}
+.outside-nav:after{
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d9d9d9;
+    color: #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    left: 0;
+    z-index: 2;
+}
+.outside-nav-one {
+    flex: 1
+}
+.outside-nav-title {
+    flex: 6;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.left-arrow {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #4364FC;
+    border-right: 2px solid #4364FC;
+    transform: rotate(-135deg);
+}
+.red-tip-wrapper {
+    width: 92vw;
+    margin-top: 4vw;
+    margin-left: 4vw;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #ff5b5b;
+    border-radius: 8px;
+    padding: 12px 0;
+    color: #ffffff;
+}
+
+.order-top-wrapper {
+    flex-direction: column;
+}
+.order-top-title {
+    font-size: 20px;
+    color: #666666;
+}
+.count-down-text {
+    margin-top: 8px;
+    font-size: 24px;
+    width: 40vw;
+    text-align: center;
+}
+.count-down-text1 {
+    width: 18vw;
+    font-size: 18px;
+    text-align: center;
+    color: #ff0000;
+}
+.icon-top-wrapper {
+    margin: 4vw 0 2vw;
+}
+.icon-top {
+    height: 12vw;
+    width: 12vw;
+}
+
+.infos-texts-wrapper {
+    width: 92vw;
+    margin: 3vw 4vw;
+    background: linear-gradient(to right, #5FA4FF, #4364FC);
+    border-radius: 12px;
+    color: #FFFFFF;
+}
+.infos-status-wrapper {
+    padding: 10px
+}
+.text-input {
+    color: #FFFFFF;
+}
+.btn-copy {
+    background: white;
+    padding: 2px 8px;
+    margin-left: 6vw;
+    font-size: 12px;
+    color: #4364FC;
+    border-radius: 12px;
+}
+.price-input-fake {
+    width: 1px;
+    height: 1px;
+}
+.infos-text-top {
+    border-top: 1px solid #e1e1e1;
+}
+.infos-text-status {
+    flex-direction: column;
+    padding: 10px;
+}
+.icon-loading {
+    width: 8vw;
+    height: 8vw;
+}
+.text-status {
+    margin-top: 4px;
+}
+.reload-btn {
+    padding: 6px 10vw;
+    border-radius: 14px;
+    font-size: 14px;
+    margin: 10px 0 0;
+}
+
+.tip-content-wrapper {
+    width: 100vw;
+    margin-top: 4vw;
+    box-sizing: border-box;
+}
+.tip-content-one {
+    width: 15.2vw;
+    height: 15.2vw;
+    border: 1px solid #4f94f6;
+    color: #4f94f6;
+    text-align: center;
+    padding: 2vw 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+.tip-content-right {
+    color: #4f94f6;
+    margin: 0 2.2vw;
+}
+.tip-content-p {
+    height: 5.5vw;
+    line-height: 5.5vw;
+    text-align: center;
+}
+.red {
+    color: #ff0000;
+}
+.green {
+    color: green;
+}
+.big {
+    font-weight: bold;
+}
+
+.qrcode-content-wrapper {
+    width: 100%;
+    position: relative;
+}
+.icon-alipy {
+    position: absolute;
+}
+.alipay-wrapper-qcr {
+    width: 52vw;
+    height: 52vw;
+}
+.alipay-wrapper-time {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    position: absolute;
+    right: 0.5vw;
+    width: 23vw;
+    top: 22vw;
+    flex-direction: column;
+}
+.infos-direct-show {
+    margin: 4vw 0;
+}
+.infos-direct-show span {
+    font-size: 18px;
+}
+.btn-copy1 {
+    background: linear-gradient(to right, #5FA4FF, #4364FC);
+    padding: 6px 14px;
+    font-size: 12px !important;
+    color: white;
+    border-radius: 12px;
+    margin: 2vw 6vw 0 2vw
+}
+
+.btn-big {
+    box-sizing: border-box;
+    width: 88vw;
+    background: linear-gradient(to right, #5FA4FF, #4364FC);
+    padding: 14px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #FFFFFF;
+    border-radius: 22px;
+}
+
+#qrCode img {
+    width: 50vw;
+    height: 50vw
+}

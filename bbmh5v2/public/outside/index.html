@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>bbm支付</title>
+    <meta name="keywords" content="H5-seed">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="static/css/reset.min.css" charset="utf-8"/>
+    <!--<link rel="stylesheet" href="static/css/outside.css" charset="utf-8"/>-->
+    <script>
+        const now = new Date().getTime();
+        document.write('<link href="static/css/outside.css?t=' + now + '" rel="stylesheet" type="text/css"/>');
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+<div class="outside-body">
+    <div class="outside-nav-wrapper">
+        <div class="flex-row-center outside-nav">
+            <div class="outside-nav-one" id="goBack"><span class="left-arrow"></span></div>
+            <div class="outside-nav-title">订单支付</div>
+            <div class="outside-nav-one"></div>
+        </div>
+    </div>
+    <div style="height: 48px;"></div>
+    <div class="flex-row-center order-top-wrapper" id="orderTop1" style="display: none">
+        <div class="icon-top-wrapper"><img src="static/imgs/icon-succ.png" class="icon-top"
+                                           style="display: none"></div>
+        <div class="order-top-title orderStatusText"></div>
+    </div>
+
+    <div class="red-tip-wrapper" style="text-align: center;display: none" id="redTip">
+        <p>一个二维码仅能成功支付一次！</p>
+        <p style="margin-top: 6px">超时、修改金额不到账！</p>
+    </div>
+
+    <div class="flex-row-center order-top-wrapper" style="display: none;margin-top: 4vw" id="orderTop2">
+        <div class="order-top-title orderStatusText"></div>
+        <div class="count-down-text"></div>
+    </div>
+
+    <div class="infos-texts-wrapper">
+        <div class="infos-status-wrapper">
+            <div class="infos-status">
+                <span>订单编号：</span>
+                <span class="order-num"></span>
+            </div>
+            <div class="infos-status" style="display:none;margin-top: 6px" id="moneyId">
+                <span>待支付：</span>
+                <span class="price" style="font-size: 22px">100</span>
+                <span>元</span>
+                <input id="priceInput1" class="price-input-fake"/>
+                <span class="btn-copy" data-clipboard-target="#priceInput1" id="btnCopy1">复制金额</span>
+            </div>
+        </div>
+        <div class="infos-text-top" id="infosStatus1">
+            <div class="infos-text-status flex-row-center">
+                <div><img src="static/imgs/gif-loading.gif" class="icon-loading"></div>
+                <div class="text-status" id="loadingText"></div>
+            </div>
+        </div>
+        <div class="infos-text-top" id="infosStatus2" style="display: none">
+            <div class="infos-text-status flex-row-center">
+                <div class="">
+                    <span class="icon-size-common icon-tip"></span>
+                    <div style="margin-left: 8px;font-size: 18px">匹配超时，请重新加载</div>
+                </div>
+                <div class="btn-copy reload-btn"
+                     onclick="onClickRefresh()">重新加载
+                </div>
+            </div>
+        </div>
+        <div class="infos-text-top" id="infosStatus3" style="display: none">
+            <div class="infos-text-status flex-row-center">
+                <div class="" style="border-top: none">
+                    <span class="icon-size-common icon-tip"></span>
+                    <div style="margin-left: 8px;font-size: 18px">匹配超时，请重新加载</div>
+                </div>
+                <div class="btn-copy reload-btn"
+                     onclick="clickReload()">重新加载
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="infos-direct-show flex-row-center" style="flex-direction: column;display: none" id="infosDirect">
+        <div class="flex-row-center" style="margin-bottom: 1vw">
+            <span>订单编号：</span>
+            <span class="order-num"></span>
+        </div>
+        <div class="flex-row-center">
+            <span class="big red price" style="font-size: 40px;"></span>
+            <span class="red" id="moneyUnit" style="font-size: 26px;" v-show="price&&payType==2">元</span>
+            <input class="price-input-fake" id="priceInput2"/>
+            <span class="btn-copy btn-copy1" data-clipboard-target="#priceInput2" id="btnCopy2">复制金额</span>
+        </div>
+    </div>
+
+    <div class="alipay-wrapper"
+         style="text-align: center;display: none" id="tipsCenter">
+        <div class="flex-row-center qrcode-content-wrapper">
+            <div id="qrCode" style="display: none">
+            </div>
+            <img id="qrcodeImg"
+                 class="alipay-wrapper-qcr" style="display: none"/>
+            <div class="alipay-wrapper-time flex-row-center" id="qrCodeStatus">
+                <div style="font-weight: bold;color:#666666" class="orderStatusText"></div>
+                <div class="count-down-text count-down-text1"></div>
+            </div>
+        </div>
+
+        <div style="font-size: 17px;font-weight: bold;margin: 4vw 4vw 0;" class="tip-for-alipay">
+            <span class="big">请不要</span>
+            <span class="big red" style="font-size: 24px">整百</span>
+            <span class="big">支付,否则无法自动到账</span>
+        </div>
+
+        <div style="font-size: 16px;font-weight: bold;margin: 1vw 4vw 0;" class="tip-for-alipay">
+            <span class="red big">请务必输入正确金额</span>
+            <span class="big green price" style="font-size: 28px"></span>
+            <span class="red big">元,否则会给别人上分!!</span>
+        </div>
+
+        <div class="tip-content-wrapper flex-row-center">
+            <div class="tip-content-one">
+                <p class="tip-content-p">截屏</p>
+                <p class="tip-content-p">保存</p>
+            </div>
+            <div class="tip-content-right">>></div>
+            <div class="tip-content-one">
+                <p class="tip-content-p" id="payTypeText">支付宝</p>
+                <p class="tip-content-p">扫一扫</p>
+            </div>
+            <div class="tip-content-right">>></div>
+            <div class="tip-content-one">
+                <p class="tip-content-p">相册</p>
+                <p class="tip-content-p">选码</p>
+            </div>
+            <div class="tip-content-right">>></div>
+            <div class="tip-content-one">
+                <p class="tip-content-p">识别</p>
+                <p class="tip-content-p">付款</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="height: 18vh;display: none" id="fakeSpace"></div>
+
+    <div class="btn-big" style="margin: 2vh 6vw 3vh;display: none" id="btnBig1" onclick="onClickJump()">确定订单</div>
+
+    <div class="btn-big" style="margin: 4vh 6vw 3vh;display: none" id="btnBig2" onclick="onClickQuestion()">0(T~T)0
+        无法支付？->点我反馈
+    </div>
+
+</div>
+<script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+<script src="https://cdn.bootcss.com/jsrsasign/8.0.12/jsrsasign-all-min.js"></script>
+<script src="https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
+<script src="https://cdn.bootcss.com/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>document.write("<script type='text/javascript' src='static/js/common.js?t=" + Date.now() + "'><\/script>");</script>
+<script>
+
+    // const baseReqPath = 'http://daifu.jiajiahebao.com/api';
+    const baseReqPath = window.location.protocol + '//' + window.location.host + '/api';
+    this.cOrder = getQueryString('cid') || 1
+    this.cCustomerId = getQueryString('cCustomerId') || 1
+    this.price1 = getQueryString('price') || 1
+    this.payType = getQueryString('payType') || 1
+    if (this.payType == 1) {
+        this.pushOrder()
+        $('#payTypeText').text('支付宝')
+        $('#loadingText').text('支付宝账号正在加载中…')
+    } else {
+        this.pushOrder()
+        // this.onClickRefresh()
+        $('#payTypeText').text('微信')
+        $('#loadingText').text('微信账号正在加载中…')
+    }
+
+    $('#goBack').click(function () {
+        window.history.go(-1)
+    })
+
+    function pushOrder() { // 加入队列
+        showLoading()
+        const that = this
+        let params = { cOrder: this.cOrder, price: this.price1, cCustomerId: this.cCustomerId, payType: this.payType }
+
+        $.ajax({
+            type: "post",
+            data: {...params, sign: getJsaParam(params)},
+            url: baseReqPath + '/terrace/pushCOrder',
+            dataType: "json",
+            success: function (res) {
+                that.onClickRefresh()
+            },
+            error: function (err) {
+                hideLoading()
+                this.orderStatusRef = 100 // todo open
+            }
+        });
+    }
+
+
+    function clickReload() { // 重新加载 OUTSIDE_REORDER
+        const that = this
+        if (this.isClickReload) {
+            return
+        }
+        showLoading()
+        let params = {cOrder: this.cOrder, price: this.price1, cCustomerId: this.cCustomerId, payType: this.payType}
+        this.timeInt && clearTimeout(this.timeInt)
+        this.isClickReload = true
+        $.ajax({
+            type: "post",
+            data: {...params, sign: getJsaParam(params)},
+            url: baseReqPath + '/terrace/reorder',
+            dataType: "json",
+            success: function (res) {
+                if (res.status.code === 200) {
+                    onClickRefresh()
+                }
+            },
+            error: function (err) {
+                hideLoading()
+                that.isClickReload = false
+                that.orderStatusRef = 100 // todo open
+                that.isReLoading = false
+            }
+        });
+    }
+
+    function onClickRefresh() {
+        if (this.isClickRefresh) {
+            return
+        }
+        this.timeInt && clearTimeout(this.timeInt)
+        const that = this
+        this.isClickRefresh = true
+        // let params = {cOrder: this.cOrder, payType: this.payType}
+        let params = {cOrder: this.cOrder}
+        $.ajax({
+            type: "post",
+            data: {...params, sign: getJsaParam(params)},
+            url: baseReqPath + '/dterrace/orderInfo',
+            dataType: "json",
+            success: function (res) {
+                hideLoading()
+                that.isClickRefresh = false
+                that.isClickReload = false
+                if (res.status.code === 200) {
+                    that.nowTimeStamp = res.status.time
+                    that.orderNo = res.data.cOrderNo
+                    that.name = res.data.zfbName
+                    that.account = res.data.zfbAccount
+                    that.price = res.data.price
+                    that.jumpUrl = res.data.address
+                    if (res.data.price) {
+                        that.price1 = res.data.price
+                    }
+                    that.qrcodeImg = res.data.qrcodeImg
+                    that.wxQrcodeUrl = res.data.wxQrcodeUrl
+                    that.copyOrderNum = res.data.copyOrderNum
+                    that.orderStatusRef = res.data.status
+                    that.canAppealEndTime = res.data.canAppealEndTime
+                    that.uwcOrder = res.data.uwcOrder
+                    that.orderNum = res.data.orderNum
+                    that.email = res.data.appealMail
+                    that.trueTradeAmount = res.data.trueTradeAmount
+                    that.alipayCodeUrl = res.data.alipayCodeUrl
+                    if (res.data.alipayAuthId) {
+                        that.alipayAuthId = res.data.alipayAuthId
+                    }
+                    if (that.orderStatusRef == 1) {
+                        that.waitPayFinishTime = res.data.customerOrderMatchEndTime
+                    } else if (that.orderStatusRef == 2 || that.orderStatusRef == 12) {
+                        that.waitPayFinishTime = res.data.waitPayFinishTime
+                        if (that.payType == 2 && that.wxQrcodeUrl) {
+                            that.showImg(that.wxQrcodeUrl)
+                        } else if (that.qrcodeImg) {
+                            that.showImg(that.qrcodeImg)
+                        } else { // 没返回qrcodeImg的话用自动生成二维码
+                            let qrcodeUrl = 'alipays://platformapi/startapp?appId=09999988&actionType=toAccount&goBack=NO&amount=' + that.price + '&userId=' + that.alipayAuthId + '&memo=' + 'bbm-' + this.orderNum
+                            $('#qrcodeImg').hide()
+                            $('#qrCode').show()
+                            const codeImgDiv = document.getElementById("qrCode");
+                            codeImgDiv.removeChild(codeImgDiv.childNodes[0]);
+                            const typeNumber = 8;
+                            const errorCorrectionLevel = 'L';
+                            const qr = qrcode(typeNumber, errorCorrectionLevel);
+                            qr.addData(that.alipayCodeUrl || qrcodeUrl);
+                            qr.make();
+                            document.getElementById('qrCode').innerHTML = qr.createImgTag();
+                        }
+                    } else if (that.orderStatusRef == 3) {
+                        that.waitPayFinishTime = res.data.userConfirmEndTimeStamp
+                    } else if (that.orderStatusRef == 9) {
+                        that.waitPayFinishTime = res.data.canAppealEndTime
+                    } else if (that.orderStatusRef == 11 || that.orderStatusRef == 6) {
+                        that.timeInt && clearTimeout(that.timeInt) // 清除定时器
+                    }
+                    // 倒计时
+                    let counts = that.waitPayFinishTime - that.nowTimeStamp
+                    $('.count-down-text').text(countDownShow(counts))
+                    tikerCountDownText(counts)
+
+                    changeElementStatus() // 改变页面状态
+
+                    let timePerRequest = 920
+                    if (that.orderStatusRef != 1) { // 待匹配
+                        timePerRequest = 10 * 1000
+                    }
+                    that.timeInt = setTimeout(() => { // 返回后再去刷新
+                        that.onClickRefresh()
+                    }, timePerRequest)
+                }
+            },
+            error: function (err) {
+                hideLoading()
+                that.isClickRefresh = false
+                that.isClickReload = false
+                that.orderStatusRef = 100 // todo open
+                that.isReLoading = false
+            }
+        });
+    }
+
+    function showImg(imgUrl) {
+        $('#qrcodeImg').show()
+        $('#qrcodeImg').attr('src', imgUrl)
+        const imgSrc = $('#qrcodeImg').attr("src");
+        getImageWidth(imgSrc, function (width, height) {
+            $('#qrcodeImg').css("height", 50 * height / width + 'vw');
+        });
+        $('#qrCode').hide()
+    }
+
+    function changeElementStatus() {
+
+        // this.orderStatusRef = 11
+        // this.orderNo = 222222
+        // this.price = 499.97
+        // this.qrcodeImg = '2122'
+
+        let orderStatusText = '等待商家确认收款'
+        let isShowAlipay = 1 // 支付宝状况控制是否显示
+        if (this.orderStatusRef == 1) {
+            orderStatusText = '等待匹配中...'
+            isShowAlipay = 2
+        } else if (this.orderStatusRef == 5) {
+            orderStatusText = '订单购买成功'
+            $(".icon-top").show().attr('src', 'static/imgs/icon-succ.png')
+        } else if (this.orderStatusRef == 2 || this.orderStatusRef == 12) {
+            orderStatusText = '剩余时间'
+        } else if (this.orderStatusRef == 3 || this.orderStatusRef == 9) {
+            orderStatusText = '平台确认收款剩余时间'
+        } else if (this.orderStatusRef == 7) {
+            orderStatusText = '订单超时交易失败'
+            $(".icon-top").show().attr('src', 'static/imgs/icon-fail.png')
+        } else if (this.orderStatusRef == 6) {
+            orderStatusText = '交易失败-取消交易'
+            $(".icon-top").show().attr('src', 'static/imgs/icon-fail.png')
+        } else if (this.orderStatusRef == 8) {
+            orderStatusText = '正在申诉中...'
+        } else if (this.orderStatusRef == 11) {
+            isShowAlipay = 0
+            orderStatusText = '加载超时'
+            $(".icon-top").show().attr('src', 'static/imgs/icon-fail.png')
+        }
+        if (this.orderStatusRef == 100) { // 加载错误
+            isShowAlipay = 100
+        }
+        $(".orderStatusText").text(orderStatusText)
+
+        let isShowTime1 = this.orderStatusRef == 1 || this.orderStatusRef == 3 || this.orderStatusRef == 9
+        let isShowTime2 = this.orderStatusRef == 2 || this.orderStatusRef == 12
+        // let isShowTime3 = (this.orderStatusRef == 2 || this.orderStatusRef == 12) && this.payType == 2
+
+        if (!isShowTime1 && !isShowTime2) {
+            $('#orderTop1').show()
+        } else {
+            $('#orderTop1').hide()
+        }
+        if (isShowTime2 && this.payType == 1) {
+            $('#redTip').show()
+        } else {
+            $('#redTip').hide()
+        }
+        // if (isShowTime1 || isShowTime3) {
+        if (isShowTime1) {
+            $('#orderTop2').show()
+        } else {
+            $('#orderTop2').hide()
+        }
+        if (isShowAlipay != 100 && isShowAlipay != 2 && isShowAlipay != 0) {
+            $('#moneyId').show()
+        } else {
+            $('#moneyId').hide()
+        }
+        if (this.price && this.payType == 1) {
+            $('#btnCopy1').show()
+        } else {
+            $('#btnCopy1').hide()
+        }
+
+        if (this.orderStatusRef == 2 || this.orderStatusRef == 12) {
+            $('.infos-texts-wrapper').hide()
+        } else {
+            $('.infos-texts-wrapper').show()
+        }
+        if (this.price && this.payType == 2) {
+            $('#moneyUnit').show()
+        } else {
+            $('#moneyUnit').hide()
+        }
+
+        $('.infos-text-top').hide()
+        if (isShowAlipay == 2) {
+            $('#infosStatus1').show()
+        } else if (isShowAlipay == 100) {
+            $('#infosStatus2').show()
+        } else if (isShowAlipay == 0) {
+            $('#infosStatus3').show()
+        }
+
+        if (this.orderStatusRef != 2 && this.orderStatusRef != 12) {
+            $('#fakeSpace').show()
+        } else {
+            $('#fakeSpace').hide()
+        }
+
+        // if ((this.orderStatusRef == 2 || this.orderStatusRef == 12) && this.payType == 2) {
+        //     $('#btnBig1').show()
+        // } else {
+        //     $('#btnBig1').hide()
+        // }
+        if (this.orderStatusRef != 5) {
+            $('#btnBig2').show()
+        } else {
+            $('#btnBig2').hide()
+        }
+
+        // if (isShowTime2 && this.payType == 1) {
+        if (isShowTime2) {
+            $('#qrCodeStatus').show()
+        } else {
+            $('#qrCodeStatus').hide()
+        }
+
+        if (this.orderStatusRef == 2 || this.orderStatusRef == 12) {
+            $('#infosDirect').show()
+        } else {
+            $('#infosDirect').hide()
+        }
+        if (this.orderStatusRef == 2 || this.orderStatusRef == 12) {
+            $('#tipsCenter').show()
+        } else {
+            $('#tipsCenter').hide()
+        }
+
+        if (this.payType == 2) {
+            $('.tip-for-alipay').hide()
+        }
+
+
+        $(".order-num").text(this.orderNo)
+        $(".price").text(this.price)
+        $(".price-input-fake").val(this.price)
+
+    }
+
+    const clipboard = new ClipboardJS('.btn-copy');
+    clipboard.on('success', function (e) {
+        showToast('复制成功', 400);
+        e.clearSelection();
+    })
+    // let counts = 66
+    // $('.count-down-text').text(countDownShow(counts))
+    // tikerCountDownText(counts)
+    function tikerCountDownText(countText) {
+        this.timeInterval && clearInterval(this.timeInterval)
+        this.timeInterval = setInterval(() => {
+            countText -= 1
+            if (countText <= 0) {
+                this.timeInterval && clearInterval(this.timeInterval)
+            }
+            $('.count-down-text').text(countDownShow(countText))
+        }, 1000)
+    }
+
+    function onClickJump() {
+        let jumpUrl = this.jumpUrl + window.location.href
+        window.location.href = jumpUrl
+    }
+
+    function onClickQuestion() {
+        let jumpUrl = window.location.protocol + '//' + window.location.host + '/web#';
+        jumpUrl += '/order/complaint?oid=3&cid=1&fromc=1' + (this.uwcOrder || 0) + '&cid=' + (this.cOrder || 0) + '&fromc=1'
+        window.location.href = jumpUrl
+    }
+
+    function getImageWidth(url, callback) {
+        const img = new Image();
+        img.src = url;
+        // 如果图片被缓存，则直接返回缓存数据
+        if (img.complete) {
+            callback(img.width, img.height);
+        } else {
+            // 完全加载完毕的事件
+            img.onload = function () {
+                callback(img.width, img.height);
+            }
+        }
+
+    }
+
+
+</script>
+
+</body>
+</html>

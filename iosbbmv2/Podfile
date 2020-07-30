@@ -1,0 +1,15 @@
+platform :ios, '9.0'
+
+target 'BBM' do
+
+# 极光推送
+pod 'JPush', '3.2.2'
+
+pod 'UMCCommon'
+
+pod 'UMCAnalytics'
+
+
+end
+
+
